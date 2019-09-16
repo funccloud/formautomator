@@ -1,0 +1,6 @@
+# github.com/crgimenes/goconfig v1.2.1
+github.com/crgimenes/goconfig
+github.com/crgimenes/goconfig/goenv
+github.com/crgimenes/goconfig/goflags
+github.com/crgimenes/goconfig/structtag
+github.com/crgimenes/goconfig/validate
