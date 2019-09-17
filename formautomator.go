@@ -14,6 +14,7 @@ type Field struct {
 	Class       string `json:"class,omitempty"`
 	Type        string `json:"type,omitempty"`
 	Placeholder string `json:"placeholder,omitempty"`
+	Value       string `json:"value,omitempty"`
 }
 
 const (
@@ -28,7 +29,8 @@ const (
 		class="{{class}}"
 		type="{{type}}"
 		placeholder="{{placeholder}}"
-		name="{{name}}">
+		name="{{name}}"
+		value="{{value}}">
 	`
 )
 
@@ -52,6 +54,7 @@ func CreateForm(j json.RawMessage) (string, error) {
 		a = strings.ReplaceAll(a, "{{type}}", f.Type)
 		a = strings.ReplaceAll(a, "{{placeholder}}", f.Placeholder)
 		a = strings.ReplaceAll(a, "{{class}}", f.Class)
+		a = strings.ReplaceAll(a, "{{value}}", f.Value)
 		s += a
 	}
 	s = strings.ReplaceAll(tForm, "{{form}}", s)
