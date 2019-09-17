@@ -1,8 +1,11 @@
 package formautomator
 
 import (
+	"bytes"
 	"encoding/json"
+	"path/filepath"
 	"strings"
+	"text/template"
 
 	"github.com/yosssi/gohtml"
 )
@@ -35,12 +38,24 @@ const (
 )
 
 // CreateForm generate an HTML form
-func CreateForm(j json.RawMessage) (string, error) {
+func CreateForm(j json.RawMessage, templates []string) (string, error) {
+	t := make(map[string]*template.Template)
+	for _, v := range templates {
+		basename := filepath.Base(v)
+		name := strings.TrimSuffix(basename, filepath.Ext(v))
+		tAux, err := template.New(name).ParseFiles(v)
+		if err != nil {
+			return "", err
+		}
+		t[name] = tAux
+	}
+
 	fields := []Field{}
 	err := json.Unmarshal(j, &fields)
 	if err != nil {
 		return "", err
 	}
+	buf := &bytes.Buffer{}
 	s := ""
 	for _, f := range fields {
 		if f.Class == "" {
@@ -49,15 +64,26 @@ func CreateForm(j json.RawMessage) (string, error) {
 		if f.Type == "" {
 			f.Type = "text"
 		}
-		a := strings.ReplaceAll(tField, "{{name}}", f.Name)
-		a = strings.ReplaceAll(a, "{{label}}", f.Label)
-		a = strings.ReplaceAll(a, "{{type}}", f.Type)
-		a = strings.ReplaceAll(a, "{{placeholder}}", f.Placeholder)
-		a = strings.ReplaceAll(a, "{{class}}", f.Class)
-		a = strings.ReplaceAll(a, "{{value}}", f.Value)
-		s += a
+
+		tpl := t[f.Type]
+		err = tpl.Execute(buf, f)
+		if err != nil {
+			return "", err
+		}
+		s += buf.String()
 	}
-	s = strings.ReplaceAll(tForm, "{{form}}", s)
+
+	formStru := struct {
+		Fields string
+	}{
+		Fields: s,
+	}
+	tpl := t["form"]
+	err = tpl.Execute(buf, formStru)
+	if err != nil {
+		return "", err
+	}
+	s = buf.String()
 	s = strings.TrimSpace(s)
 	s = strings.Join(strings.Fields(s), " ")
 	s = gohtml.Format(s)

@@ -5,12 +5,15 @@ import (
 	fa "formautomator"
 	"io/ioutil"
 	"os"
+	"path"
+	"path/filepath"
 
 	"github.com/crgimenes/goconfig"
 )
 
 type config struct {
-	Filename string `json:"filename,omitempty" cfg:"f" cfgRequired:"true" cfgDefault:"-"`
+	Filename  string `json:"filename,omitempty" cfg:"f" cfgRequired:"true" cfgDefault:"-"`
+	Templates string `json:"templates,omitempty" cfg:"t" cfgRequired:"true"`
 }
 
 func main() {
@@ -30,7 +33,11 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	s, err := fa.CreateForm(b)
+	templates, err := filepath.Glob(path.Join(cfg.Templates, "*.html"))
+	if err != nil {
+		fmt.Println(err)
+	}
+	s, err := fa.CreateForm(b, templates)
 	if err != nil {
 		fmt.Println(err)
 		return
