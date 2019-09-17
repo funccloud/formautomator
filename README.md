@@ -15,3 +15,13 @@ JSON metadata
     }
 ]
 ```
+
+## Usage examples
+
+```console
+cat examples/example.json| go run cmd/fa/main.go
+```
+
+```console
+go run cmd/fa/main.go -f examples/example.json
+```

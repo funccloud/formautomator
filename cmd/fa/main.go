@@ -4,12 +4,13 @@ import (
 	"fmt"
 	fa "formautomator"
 	"io/ioutil"
+	"os"
 
 	"github.com/crgimenes/goconfig"
 )
 
 type config struct {
-	Filename string `json:"filename,omitempty" cfg:"f" cfgRequired:"true"`
+	Filename string `json:"filename,omitempty" cfg:"f" cfgRequired:"true" cfgDefault:"-"`
 }
 
 func main() {
@@ -19,7 +20,12 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	b, err := ioutil.ReadFile(cfg.Filename)
+	var b []byte
+	if cfg.Filename == "-" {
+		b, err = ioutil.ReadAll(os.Stdin)
+	} else {
+		b, err = ioutil.ReadFile(cfg.Filename)
+	}
 	if err != nil {
 		fmt.Println(err)
 		return
