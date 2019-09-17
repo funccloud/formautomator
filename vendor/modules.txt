@@ -4,3 +4,8 @@ github.com/crgimenes/goconfig/goenv
 github.com/crgimenes/goconfig/goflags
 github.com/crgimenes/goconfig/structtag
 github.com/crgimenes/goconfig/validate
+# github.com/yosssi/gohtml v0.0.0-20190915184251-7ff6f235ecaf
+github.com/yosssi/gohtml
+# golang.org/x/net v0.0.0-20190916140828-c8589233b77d
+golang.org/x/net/html
+golang.org/x/net/html/atom
