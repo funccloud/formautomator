@@ -18,11 +18,11 @@ jobs:
 
     - name: Get dependencies
       env:
-        GO111MODULE=on
+        GO111MODULE: on
       run: |
         go mod download
 
     - name: Test
       env:
-        GO111MODULE=on
+        GO111MODULE: on
       run: go test -race ./...
