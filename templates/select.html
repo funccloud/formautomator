@@ -1,7 +1,11 @@
 <div class="form-group">
+    <label class="d-block" for="[[.Name]]">
+        [[.Label]]
+    </label>
     <select class="browser-default custom-select [[.Class]]" name="[[.Name]]">
+        <option value="">Selecione...</option>
         {{ range .[[.Metadata.ForList]] }}
-        <option value="{{ .[[.Metadata.Index]] }}" {{ if eq [[.Value]] .[[.Metadata.Index]] }}selected="selected"{{ end }}>{{.[[.Metadata.Label]]}}</option>
+        <option value="{{ .[[.Metadata.Index]] }}" {{ if eq .[[.Metadata.Var]]  .[[.Metadata.Index]] }}selected="selected"{{ end }}>{{.[[.Metadata.Label]]}}</option>
         {{ end }}
     </select>
 </div>

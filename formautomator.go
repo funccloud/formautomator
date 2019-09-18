@@ -15,6 +15,7 @@ type Metadata struct {
 	ForList string `json:"form_list,omitempty"`
 	Index   string `json:"index,omitempty"`
 	Label   string `json:"label,omitempty"`
+	Var     string `json:"var,omitempty"`
 }
 
 // Field properties
@@ -26,6 +27,12 @@ type Field struct {
 	Placeholder string   `json:"placeholder,omitempty"`
 	Value       string   `json:"value,omitempty"`
 	Metadata    Metadata `json:"metadata,omitempty"`
+}
+
+type Form struct {
+	Fields []Field `json:"fields,omitempty"`
+	Method string  `json:"method,omitempty"`
+	Action string  `json:"action,omitempty"`
 }
 
 // CreateForm generate an HTML form
@@ -44,14 +51,13 @@ func CreateForm(j json.RawMessage, templates []string) (string, error) {
 		}
 		t[name] = tAux
 	}
-
-	fields := []Field{}
-	err := json.Unmarshal(j, &fields)
+	f := Form{}
+	err := json.Unmarshal(j, &f)
 	if err != nil {
 		return "", err
 	}
 	s := ""
-	for _, f := range fields {
+	for _, f := range f.Fields {
 		buf := &bytes.Buffer{}
 		if f.Class == "" {
 			f.Class = "form-control"
@@ -69,9 +75,13 @@ func CreateForm(j json.RawMessage, templates []string) (string, error) {
 	}
 
 	formStru := struct {
-		Fields string
+		Fields string `json:"fields,omitempty"`
+		Method string `json:"method,omitempty"`
+		Action string `json:"action,omitempty"`
 	}{
 		Fields: s,
+		Method: f.Method,
+		Action: f.Action,
 	}
 	buf := &bytes.Buffer{}
 	tpl := t["form"]

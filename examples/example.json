@@ -1,9 +1,13 @@
-[
-    {
-        "name": "address",
-        "label": "Address",
-        "class": "form-control",
-        "type": "text",
-        "placeholder": "Sunset Blvd, 38"
-    }
-]
+{
+    "method": "POST",
+    "action": "/addr",
+    "fields": [
+        {
+            "name": "address",
+            "label": "Address",
+            "class": "form-control",
+            "type": "text",
+            "placeholder": "Sunset Blvd, 38"
+        }
+    ]
+}
