@@ -3,6 +3,7 @@ package formautomator
 import (
 	"bytes"
 	"encoding/json"
+	"io/ioutil"
 	"path/filepath"
 	"strings"
 	"text/template"
@@ -10,32 +11,22 @@ import (
 	"github.com/yosssi/gohtml"
 )
 
-// Field properties
-type Field struct {
-	Name        string `json:"name,omitempty"`
-	Label       string `json:"label,omitempty"`
-	Class       string `json:"class,omitempty"`
-	Type        string `json:"type,omitempty"`
-	Placeholder string `json:"placeholder,omitempty"`
-	Value       string `json:"value,omitempty"`
+type Metadata struct {
+	ForList string `json:"form_list,omitempty"`
+	Index   string `json:"index,omitempty"`
+	Label   string `json:"label,omitempty"`
 }
 
-const (
-	tForm = `
-	<form>{{form}}</form>
-	`
-	tField = `
-	<label for="{{name}}">
-		{{label}}
-	</label>
-	<input
-		class="{{class}}"
-		type="{{type}}"
-		placeholder="{{placeholder}}"
-		name="{{name}}"
-		value="{{value}}">
-	`
-)
+// Field properties
+type Field struct {
+	Name        string   `json:"name,omitempty"`
+	Label       string   `json:"label,omitempty"`
+	Class       string   `json:"class,omitempty"`
+	Type        string   `json:"type,omitempty"`
+	Placeholder string   `json:"placeholder,omitempty"`
+	Value       string   `json:"value,omitempty"`
+	Metadata    Metadata `json:"metadata,omitempty"`
+}
 
 // CreateForm generate an HTML form
 func CreateForm(j json.RawMessage, templates []string) (string, error) {
@@ -43,7 +34,11 @@ func CreateForm(j json.RawMessage, templates []string) (string, error) {
 	for _, v := range templates {
 		basename := filepath.Base(v)
 		name := strings.TrimSuffix(basename, filepath.Ext(v))
-		tAux, err := template.New(name).ParseFiles(v)
+		b, err := ioutil.ReadFile(v)
+		if err != nil {
+			return "", err
+		}
+		tAux, err := template.New(name).Delims("[[", "]]").Parse(string(b))
 		if err != nil {
 			return "", err
 		}
@@ -55,9 +50,9 @@ func CreateForm(j json.RawMessage, templates []string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	buf := &bytes.Buffer{}
 	s := ""
 	for _, f := range fields {
+		buf := &bytes.Buffer{}
 		if f.Class == "" {
 			f.Class = "form-control"
 		}
@@ -78,6 +73,7 @@ func CreateForm(j json.RawMessage, templates []string) (string, error) {
 	}{
 		Fields: s,
 	}
+	buf := &bytes.Buffer{}
 	tpl := t["form"]
 	err = tpl.Execute(buf, formStru)
 	if err != nil {

@@ -1,0 +1,7 @@
+<div class="form-group">
+    <select class="browser-default custom-select [[.Class]]" name="[[.Name]]">
+        {{ range .[[.Metadata.ForList]] }}
+        <option value="{{ .[[.Metadata.Index]] }}" {{ if eq [[.Value]] .[[.Metadata.Index]] }}selected="selected"{{ end }}>{{.[[.Metadata.Label]]}}</option>
+        {{ end }}
+    </select>
+</div>
