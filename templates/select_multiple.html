@@ -3,7 +3,6 @@
         [[.Label]]
     </label>
     <select class="browser-default custom-select [[.Class]]" name="[[.Name]]">
-        <option value="">Selecione...</option>
         {{ $selectedID := .[[.Metadata.Var]] }}
         {{ range $index, $item := .[[.Metadata.ForList]] }}
         <option value="{{ $item.[[.Metadata.Index]] }}" {{ if in $selectedID $item.[[.Metadata.Index]] }}selected="selected"{{ end }}>{{ $item.[[.Metadata.Label]] }}</option>
