@@ -7,8 +7,7 @@ import (
 	"path"
 	"path/filepath"
 
-	fa "github.com/funccloud/formautomator"
-
+	fa "code.funccloud.dev/formautomator"
 	"github.com/crgimenes/goconfig"
 )
 

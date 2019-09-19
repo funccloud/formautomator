@@ -1,4 +1,4 @@
-module github.com/funccloud/formautomator
+module code.funccloud.dev/formautomator
 
 go 1.13
 
