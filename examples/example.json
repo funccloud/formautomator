@@ -8,6 +8,34 @@
             "class": "form-control",
             "type": "text",
             "placeholder": "Sunset Blvd, 38"
+        },
+        {
+            "name": "id_company",
+            "label": "Company",
+            "class": "form-control",
+            "type": "select",
+            "placeholder": "Select a Company",
+            "value": "{{.Contract.IDCompany}}",
+            "metadata": {
+                "form_list": "Companies",
+                "index": "ID",
+                "label": "CompanyName",
+                "var": "Contract.IDCompany"
+            }
+        },
+        {
+            "name": "id_salesman",
+            "label": "Salesman",
+            "class": "form-control",
+            "type": "select_multiple",
+            "placeholder": "Select the Sellers",
+            "value": "{{.Contract.IDSalesman}}",
+            "metadata": {
+                "form_list": "Sellers",
+                "index": "ID",
+                "label": "Nome",
+                "var": "Contract.IDSalesman"
+            }
         }
     ]
 }
