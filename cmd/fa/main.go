@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
-	fa "formautomator"
 	"io/ioutil"
 	"os"
 	"path"
 	"path/filepath"
+
+	fa "github.com/funccloud/formautomator"
 
 	"github.com/crgimenes/goconfig"
 )
