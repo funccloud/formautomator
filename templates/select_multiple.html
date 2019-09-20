@@ -1,8 +1,8 @@
 <div class="form-group">
-    <label class="d-block" for="[[.Name]]" multiple>
+    <label class="d-block" for="[[.Name]]">
         [[.Label]]
     </label>
-    <select class="browser-default custom-select [[.Class]]" name="[[.Name]]">
+    <select class="browser-default custom-select [[.Class]]" name="[[.Name]]" multiple>
         {{ $selectedID := .[[.Metadata.Var]] }}
         {{ range $index, $item := .[[.Metadata.ForList]] }}
         <option value="{{ $item.[[.Metadata.Index]] }}" {{ if in $selectedID $item.[[.Metadata.Index]] }}selected="selected"{{ end }}>{{ $item.[[.Metadata.Label]] }}</option>
