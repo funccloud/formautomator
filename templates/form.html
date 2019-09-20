@@ -1,3 +1,3 @@
-<form action="[[.Action]]" method="[[.Method]]">
+<form action="[[.Action]]" method="[[.Method]]" [[if .EncType ]]enctype="[[.EncType]]"[[end]]>
     [[.Fields]]
 </form>

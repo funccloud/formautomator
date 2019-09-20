@@ -1,6 +1,7 @@
 {
     "method": "POST",
     "action": "/addr",
+    "enctype": "multipart/form-data",
     "fields": [
         {
             "name": "address",

@@ -30,9 +30,10 @@ type Field struct {
 }
 
 type Form struct {
-	Fields []Field `json:"fields,omitempty"`
-	Method string  `json:"method,omitempty"`
-	Action string  `json:"action,omitempty"`
+	Fields  []Field `json:"fields,omitempty"`
+	Method  string  `json:"method,omitempty"`
+	Action  string  `json:"action,omitempty"`
+	EncType string  `json:"enctype,omitempty"`
 }
 
 // CreateForm generate an HTML form
@@ -75,13 +76,15 @@ func CreateForm(j json.RawMessage, templates []string) (string, error) {
 	}
 
 	formStru := struct {
-		Fields string `json:"fields,omitempty"`
-		Method string `json:"method,omitempty"`
-		Action string `json:"action,omitempty"`
+		Fields  string `json:"fields,omitempty"`
+		Method  string `json:"method,omitempty"`
+		Action  string `json:"action,omitempty"`
+		EncType string `json:"enctype,omitempty"`
 	}{
-		Fields: s,
-		Method: f.Method,
-		Action: f.Action,
+		Fields:  s,
+		Method:  f.Method,
+		Action:  f.Action,
+		EncType: f.EncType,
 	}
 	buf := &bytes.Buffer{}
 	tpl := t["form"]
