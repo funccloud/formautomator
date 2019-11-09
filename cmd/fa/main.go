@@ -7,8 +7,8 @@ import (
 	"path"
 	"path/filepath"
 
-	fa "code.funccloud.dev/formautomator"
 	"github.com/crgimenes/goconfig"
+	fa "github.com/funccloud/formautomator"
 )
 
 type config struct {
